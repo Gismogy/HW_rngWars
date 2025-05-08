@@ -1,7 +1,7 @@
 local currentWeaponType = nil
 
 local workingWeapons = {
-    { name = "gtRCPlane", percentage = 10, options = {tint = 0xFFFFFFFF, boom = "a"} },
+    { name = "gtRCPlane", percentage = 10, options = {} },
     { name = "gtShotgunShot", percentage = 20, options = {} },
     { name = "gtSineGunShot", percentage = 30, options = {} },
     { name = "gtPickHammer", percentage = 40, options = {} },
@@ -10,7 +10,7 @@ local workingWeapons = {
     { name = "gtSnowball", percentage = 70, options = {} },
     { name = "gtShell", percentage = 80, options = {} },
     { name = "gtAirMine", percentage = 90, options = {} },
-    { name = "gtBee", percentage = 100, options = {WDTimer = 1} },
+    { name = "gtBee", percentage = 100, options = {} },
     { name = "gtFirePunch", percentage = 110, options = {} },
     { name = "gtCake", percentage = 120, options = {} },
     { name = "gtMine", percentage = 130, options = {} },
@@ -25,47 +25,24 @@ local workingWeapons = {
     { name = "gtWatermelon", percentage = 183, options = {} },
     { name = "gtSMine", percentage = 184, options = {} },
     { name = "gtHellishBomb", percentage = 185, options = {} },
-    { name = "gtDynamite", percentage = 186, options = { Boom = 2} },
+    { name = "gtDynamite", percentage = 186, options = {} },
     { name = "gtDrill", percentage = 187, options = {} },
     { name = "gtCreeper", percentage = 188, options = {} },
     { name = "gtClusterBomb", percentage = 189, options = {} }
 }
+
 function findWeapon(rand)
     for _, weapon in ipairs(workingWeapons) do
         if rand <= weapon.percentage then
-             local actualName = (weapon.name == "gtSniperRifle") and "gtSniperRifle" or weapon.name
-
-              for key, value in pairs(weapon.options) do
-                    AddCaption(tostring(key), 0x00FFFFFF, capgrpGameState)
-              end
-          -- FROM THIS PART ON ITS.. testing testing testing
-              if weapon.options then
-                  SetGearValues(
-                      actualName,
-                      weapon.options.Angle,
-                      weapon.options.Power,
-                      weapon.options.WDTimer,
-                      weapon.options.Radius,
-                      weapon.options.Density,
-                      weapon.options.Karma,
-                      weapon.options.DirAngle,
-                      weapon.options.AdvBounce,
-                      weapon.options.ImpactSound,
-                      weapon.options.ImpactSounds,
-                      weapon.options.Tint,
-                      weapon.options.Damage,
-                      weapon.options.Boom
-                  )
-              end
-
+            local actualName = (weapon.name == "gtSniperRifle") and "gtSniperRifle" or weapon.name
             return _G[actualName] or gtSniperRifle, actualName
         end
     end
-
     return gtSniperRifle, "gtSniperRifle"
 end
+
 function randomiseMe()
-    local rand = GetRandom(189)  --  - REMOVE FOR TESTING
+    local rand = GetRandom(189)
     AddCaption(tostring(rand), 0x00FFFFFF, capgrpGameState)
 
     local gearID, name = findWeapon(rand)
@@ -76,12 +53,14 @@ function onNewTurn()
     currentWeaponType = randomiseMe()
     AddCaption("This turn's weapon: " .. currentWeaponType.name, 0xFFFFFFFF, capgrpGameState)
 end
+
 function onGearAdd(gear)
     if GetGearType(gear) == gtBall then
         local chosen = currentWeaponType or { id = gtSniperRifle, name = "gtSniperRifle" }
 
         local x, y = GetGearPosition(gear)
         local dx, dy = GetGearVelocity(gear)
+
         WriteLnToConsole("Spawning gear: " .. tostring(chosen.name) .. " -> " .. tostring(chosen.id))
 
         AddGear(x, y, chosen.id, 0, dx, dy, 0)
