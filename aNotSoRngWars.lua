@@ -19,16 +19,16 @@ local workingWeapons = {
     { name = "gtMinigun", percentage = 160, options = {} },
     { name = "gtGrenade", percentage = 170, options = {} },
     { name = "gtGasBomb", percentage = 180, options = {} },
-    { name = "gtClusterBomb", percentage = 181, options = {} },
-    { name = "gtMortar", percentage = 181, options = {} },
-    { name = "gtNapalmBomb", percentage = 182, options = {} },
-    { name = "gtWatermelon", percentage = 183, options = {} },
-    { name = "gtSMine", percentage = 184, options = {} },
-    { name = "gtHellishBomb", percentage = 185, options = {} },
-    { name = "gtDynamite", percentage = 186, options = {} },
-    { name = "gtDrill", percentage = 187, options = {} },
-    { name = "gtCreeper", percentage = 188, options = {} },
-    { name = "gtClusterBomb", percentage = 189, options = {} }
+    { name = "gtClusterBomb", percentage = 185, options = {} },
+    { name = "gtMortar", percentage = 190, options = {} },
+    { name = "gtNapalmBomb", percentage = 195, options = {} },
+    { name = "gtWatermelon", percentage = 200, options = {} },
+    { name = "gtSMine", percentage = 205, options = {} },
+    { name = "gtHellishBomb", percentage = 210, options = {} },
+    { name = "gtDynamite", percentage = 215, options = {} },
+    { name = "gtDrill", percentage = 220, options = {} },
+    { name = "gtCreeper", percentage = 225, options = {} },
+    { name = "gtClusterBomb", percentage = 230, options = {} }
 }
 
 function findWeapon(rand)
@@ -42,7 +42,7 @@ function findWeapon(rand)
 end
 
 function randomiseMe()
-    local rand = GetRandom(189)
+    local rand = GetRandom(230)
     AddCaption(tostring(rand), 0x00FFFFFF, capgrpGameState)
 
     local gearID, name = findWeapon(rand)
